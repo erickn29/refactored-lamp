@@ -15,7 +15,7 @@ export default {
   },
   components: {},
   methods: {
-    async resetSearch () {
+    async resetSearch() {
       location.reload()
     },
     async fetchSelectors() {
@@ -34,14 +34,16 @@ export default {
         console.log(error)
       }
     },
-    async fetchVacancies() {
+    async fetchVacancies(pageNumber = 1) {
       const language = document.getElementById("language").value
       const speciality = document.getElementById("speciality").value
       const experience = document.getElementById("experience").value
+      console.log(pageNumber)
       const params = {
         "language": language,
         "speciality": speciality,
         "experience": experience,
+        "page": pageNumber ? pageNumber : 1,
       }
       try {
         const response = await axios.get(
@@ -97,8 +99,17 @@ export default {
             </option>
           </select>
         </div>
+        <div class="salary mb-4">
+          <input
+              type="number"
+              name="salary"
+              id="salary-filter"
+              class="form-control"
+              placeholder="Зарплата от"
+          >
+        </div>
         <div class="d-flex gap-2">
-          <div class="button-accept shadow-box" @click="fetchVacancies">Искать</div>
+          <div class="button-accept shadow-box" @click="fetchVacancies(1)">Искать</div>
           <div class="button-warning shadow-box" @click="resetSearch">Сбросить</div>
         </div>
       </div>
@@ -115,12 +126,12 @@ export default {
         </div>
         <div class="vacancy-salary mb-2">
           <span v-if="vacancy.salary_from" class="vacancy-salary-from">
-            от <span style="font-weight: 600; color: #28D1C5; font-size: 1.1rem">
+            от <span style="font-weight: 700; color: #28D1C5; font-size: 1.1rem">
             {{ vacancy.salary_from.toLocaleString('ru-RU') }}
           </span> руб.
           </span>
           <span v-if="vacancy.salary_to" class="vacancy-salary-to">
-            до <span style="font-weight: 600; color: #28D1C5; font-size: 1.1rem">
+            до <span style="font-weight: 700; color: #28D1C5; font-size: 1.1rem">
             {{ vacancy.salary_to.toLocaleString('ru-RU') }}
           </span> руб.
           </span>
@@ -133,6 +144,25 @@ export default {
             {{ tool.name }}
           </div>
         </div>
+      </div>
+      <div class="pagination d-flex mb-4 justify-content-center gap-2">
+        <div v-if="pagination.currentPage > 1">
+          <div
+              class="next-page paginate-button button-accept-outline"
+              @click="fetchVacancies(pagination.currentPage - 1)"
+          >
+            Назад
+          </div>
+        </div>
+        <div v-if="pagination.currentPage < pagination.maxPage">
+          <div
+              class="next-page paginate-button button-accept-outline"
+              @click="fetchVacancies(pagination.currentPage + 1)"
+          >
+            Вперед
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -148,9 +178,11 @@ export default {
   font-size: .9rem;
   text-transform: lowercase;
 }
+
 .form-control {
   font-size: .9rem !important;
 }
+
 .vacancy {
   padding: 20px;
   border-radius: 10px;
@@ -165,12 +197,13 @@ export default {
 .vacancy-tool {
   margin: 0 5px 5px 0;
   padding: 2px 5px;
-  background: #8328D1;
+  background: #8f73a717;
   border-radius: 3px;
   font-size: .9rem;
   font-weight: 500;
-  color: white;
+  color: #000000b0;
 }
+
 .vacancy-company {
   font-weight: 500;
 }

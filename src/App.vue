@@ -28,7 +28,7 @@ body {
 }
 
 main {
-  font-family: "Montserrat", sans-serif;
+  font-family: "Montserrat", sans-serif !important;
 }
 .shadow-box {
   box-shadow: 0 0 20px #00000012 !important;
@@ -48,19 +48,36 @@ main {
   background: #7825bf;
   transition: .2s;
 }
+.button-accept-outline {
+  border-radius: 3px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  padding: 5px 10px;
+  background: white;
+  color: #8328D1;
+  transition: .2s;
+  font-weight: 600;
+  border: 1px solid #8328D1;
+}
+.button-accept-outline:hover {
+  color: white;
+  background: #7825bf;
+  transition: .2s;
+}
 .button-warning {
   border-radius: 3px;
   cursor: pointer;
   width: 100%;
   text-align: center;
   padding: 5px 10px;
-  background: #D16028;
+  background: #ed601a;
   color: white;
   transition: .2s;
   font-weight: 600;
 }
 .button-warning:hover {
-  background: #bb5725;
+  background: #d75818;
   transition: .2s;
 }
 </style>
