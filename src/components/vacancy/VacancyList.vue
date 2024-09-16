@@ -21,7 +21,7 @@ export default {
     async fetchSelectors() {
       try {
         const response = await axios.get(
-            'http://127.0.0.1:8000/api/v1/vacancy/selectors/'
+            'http://127.0.0.1:8000/api/v1/job/vacancy/selectors/'
         )
         if (response.status == 200) {
           this.languages = response.data.languages
@@ -47,7 +47,7 @@ export default {
       }
       try {
         const response = await axios.get(
-            'http://127.0.0.1:8000/api/v1/vacancy/',
+            'http://127.0.0.1:8000/api/v1/job/vacancy/',
             {params: params}
         )
         if (response.status == 200) {

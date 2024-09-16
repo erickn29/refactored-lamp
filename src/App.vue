@@ -16,7 +16,7 @@ export default {
   <Navbar />
   <div class="container">
     <main>
-      <VacancyList/>
+      <router-view />
     </main>
   </div>
 </template>

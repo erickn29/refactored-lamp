@@ -15,10 +15,13 @@ export default {
         </div>
         <div class="col-lg-9 d-flex gap-4 align-items-center">
           <div class="nav-links">
-            Вакансии
+            <a href="/">Вакансии</a>
           </div>
           <div class="nav-links">
-            Статистика
+            <a href="/stats">Статистика</a>
+          </div>
+          <div class="nav-links">
+            <a href="/interview">Собеседование</a>
           </div>
         </div>
       </div>
