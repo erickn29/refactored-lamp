@@ -4,8 +4,10 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import VacancyList from './components/vacancy/VacancyList.vue'
 import Interview from "./components/interview/Chat.vue"
+import Registration from './components/Registration.vue'
 
 import 'bootstrap/dist/css/bootstrap.css';
+import Login from './components/Login.vue'
 
 const router = createRouter({
     routes: [
@@ -22,6 +24,14 @@ const router = createRouter({
             //         component: Chat,
             //     }
             // ],
+        },
+        {
+            path: '/registration',
+            component: Registration,
+        },
+        {
+            path: '/login',
+            component: Login,
         },
     ],
     history: createWebHistory()

@@ -23,6 +23,12 @@ export default {
           <div class="nav-links">
             <a href="/interview">Собеседование</a>
           </div>
+          <div class="nav-links">
+            <a href="/registration">Регистрация</a>
+          </div>
+          <div class="nav-links">
+            <a href="/login">Логин</a>
+          </div>
         </div>
       </div>
 
