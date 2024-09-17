@@ -8,6 +8,7 @@ import Registration from './components/Registration.vue'
 
 import 'bootstrap/dist/css/bootstrap.css';
 import Login from './components/Login.vue'
+// import {request} from './requests.js';
 
 const router = createRouter({
     routes: [
@@ -39,4 +40,5 @@ const router = createRouter({
 
 const app = createApp(App)
 app.use(router)
+// app.use(request)
 app.mount('#app')

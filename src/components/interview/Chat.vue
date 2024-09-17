@@ -1,20 +1,36 @@
 <script>
+import request from "@/requests";
+
 export default {
   data() {
     return {
-
+      user: {},
     }
   },
   components: {
 
   },
   methods: {
-    async getChats() {
-
+    async getUser() {
+      const response = await request(
+        "get",
+        "/user/me/",
+        {},
+        { "Authorization": `Bearer ${localStorage.getItem("access_token")}` },
+        {},
+      )
+      if (
+        response.status === 200
+      ) {
+        this.user = response.data
+        console.log(this.user)
+      } else {
+        this.error = response.data.message;
+      }
     },
   },
   async mounted() {
-
+    await this.getUser()
   }
 }
 </script>
@@ -31,7 +47,7 @@ export default {
         </div>
       </div>
       <div class="col-lg-9">
-
+        {{ user.email }}
       </div>
     </div>
   </div>
