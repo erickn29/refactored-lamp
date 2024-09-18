@@ -5,6 +5,7 @@ export default {
   data() {
     return {
       user: {},
+      isLoaded: false
     }
   },
   components: {
@@ -22,8 +23,9 @@ export default {
       if (
         response.status === 200
       ) {
+        this.isLoaded = true;
         this.user = response.data
-        console.log(this.user)
+        this.$store.state.user = this.user
       } else {
         this.error = response.data.message;
       }
@@ -36,7 +38,7 @@ export default {
 </script>
 
 <template>
-  <div class="container mt-4">
+  <div v-if="isLoaded" class="container mt-4">
     <div class="row">
       <div class="col-lg-3">
         <div id="my-chats">

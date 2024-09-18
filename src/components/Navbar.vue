@@ -8,27 +8,46 @@ export default {
   <nav class="sticky-top">
     <div class="container">
       <div class="row">
-        <div class="navbar col-lg-3" style="padding: 6px 12px">
+        <div class="navbar col-lg-2" style="padding: 6px 12px">
           <div class="logo">
             IT-RADAR
           </div>
         </div>
-        <div class="col-lg-9 d-flex gap-4 align-items-center">
+        <div class="col-lg-10 d-flex gap-4 align-items-center justify-content-center">
           <div class="nav-links">
-            <a href="/">Вакансии</a>
+            <router-link to="/">
+              <text>Вакансии</text>
+            </router-link>
           </div>
           <div class="nav-links">
-            <a href="/stats">Статистика</a>
+            <router-link to="/">
+              <text>Статистика</text>
+            </router-link>
           </div>
           <div class="nav-links">
-            <a href="/interview">Собеседование</a>
+            <router-link to="/interview">
+              <text>Собеседование</text>
+            </router-link>
           </div>
-          <div class="nav-links">
-            <a href="/registration">Регистрация</a>
+          <div v-if="$store.state.user.email">
+            <div class="nav-links">
+              {{ $store.state.user.email }}
+            </div>
           </div>
-          <div class="nav-links">
-            <a href="/login">Логин</a>
+          <div v-else class="d-flex gap-4">
+            <div class="nav-links">
+              <router-link to="/login">
+                <text>Вход</text>
+              </router-link>
+            </div>
+            <div class="nav-links">
+              <router-link to="/registration">
+                <text>Регистрация</text>
+              </router-link>
+            </div>
+            
           </div>
+          
         </div>
       </div>
 
@@ -55,5 +74,4 @@ nav {
 .nav-links {
   font-weight: 700;
 }
-
 </style>

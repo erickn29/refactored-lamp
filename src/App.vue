@@ -30,6 +30,10 @@ body {
 main {
   font-family: "Montserrat", sans-serif !important;
 }
+a {
+  color: #212121;
+  text-decoration: none;
+}
 .shadow-box {
   box-shadow: 0 0 20px #00000012 !important;
 }
