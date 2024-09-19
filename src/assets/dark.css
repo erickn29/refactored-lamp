@@ -1,0 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    background: #1a1a1a no-repeat center / 100% 100% fixed;
+    font-family: "Montserrat", sans-serif;
+    color: #eee !important;
+}
+
+.btn {
+    font-weight: 600;
+    text-transform: lowercase;
+    font-size: .9rem;
+    border-radius: 3px;
+}
+
+.btn-success {
+    background: #008074;
+    border: 1px #008074 solid;
+    box-shadow: 0 0px 20px #0080744a;
+}
+
+.btn-success:hover {
+    background: #005249;
+    border: 1px #005249 solid;
+    box-shadow: 0 0px 20px #0052494a;
+}
+
+nav {
+    background: #11111125;
+    color: azure;
+    backdrop-filter: blur(20px);
+}
+
+nav .nav-links,
+.nav-links text {
+    color: #eee !important;
+    text-transform: lowercase !important;
+    font-size: 1rem;
+    /* font-weight: bold; */
+    transition: .2s ease;
+}
+
+nav .nav-links text:hover {
+    color: #03c9b5 !important;
+    text-transform: lowercase !important;
+    font-size: 1rem;
+    /* font-weight: bold; */
+    transition: .2s ease;
+}
+
+.technology {
+    background: #333;
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 600;
+    transition: .2s ease;
+}
+
+.technology.selected {
+    transition: background-color 0.5s;
+    background-color: #2d0052;
+}
+
+.technology:hover {
+    background: #2d0052;
+    border-radius: 3px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: 600;
+    transition: .2s ease;
+}
+
+.close {
+    text-align: end;
+}
+
+.close .buttn {
+    border: 1px solid #333;
+    cursor: pointer;
+}

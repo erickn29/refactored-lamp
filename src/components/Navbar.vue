@@ -7,8 +7,8 @@ export default {
 <template>
   <nav class="sticky-top">
     <div class="container">
-      <div class="row">
-        <div class="navbar col-lg-2" style="padding: 6px 12px">
+      <div class="navbar">
+        <div class="col-lg-2" style="padding: 6px 12px">
           <div class="logo">
             IT-RADAR
           </div>
@@ -56,18 +56,18 @@ export default {
 </template>
 
 <style>
-nav {
+/* nav {
   width: 100%;
   background: #ffffffa8;
   color: #000;
   backdrop-filter: blur(20px);
   font-family: "Montserrat", sans-serif !important;
   box-shadow: 0 0 20px #0000001a;
-}
+} */
 
 .logo {
   font-weight: 800;
-  color: #4b0885;
+  color: #ddd;
   font-size: 1.5rem;
 }
 
