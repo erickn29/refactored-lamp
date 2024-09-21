@@ -1,11 +1,11 @@
 <script>
-import SelectTechnology from './SelectTechnology.vue';
+import SelectTechnology from './AddChat.vue';
 
 
 export default {
   data () {
     return {
-      showSelectTechnology: true,
+      showTechnologies: true,
     }
   },
   components: {

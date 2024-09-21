@@ -8,12 +8,12 @@ export default {
   <nav class="sticky-top">
     <div class="container">
       <div class="navbar">
-        <div class="col-lg-2" style="padding: 6px 12px">
+        <div class="col-lg-3" style="padding: 6px 12px">
           <div class="logo">
             IT-RADAR
           </div>
         </div>
-        <div class="col-lg-10 d-flex gap-4 align-items-center justify-content-center">
+        <div class="col-lg-9 d-flex gap-4 align-items-center justify-content-center">
           <div class="nav-links">
             <router-link to="/">
               <text>Вакансии</text>
@@ -72,6 +72,6 @@ export default {
 }
 
 .nav-links {
-  font-weight: 700;
+  font-weight: 900;
 }
 </style>

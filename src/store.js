@@ -5,6 +5,8 @@ const store = createStore({
   state() {
     return {
       user: {},
+      showTechnologies: false,
+      userChats: []
     }
   },
   mutations: {

@@ -1,6 +1,6 @@
 <script>
 import request from "@/requests";
-import SelectTechnology from "./SelectTechnology.vue";
+import SelectTechnology from "./AddChat.vue";
 
 export default {
   data() {
@@ -9,7 +9,7 @@ export default {
       isLoaded: false,
       userRooms: [],
       showChatWindow: false,
-      showSelectTechnology: false,
+      // showTechnologies: false,
     }
   },
   components: {
@@ -35,7 +35,7 @@ export default {
       }
     },
     async showTechnologies() {
-      this.showSelectTechnology = true;
+      this.$store.state.showTechnologies = true;
     },
   },
   async mounted() {
@@ -50,28 +50,28 @@ export default {
 <template>
   <div v-if="isLoaded" class="container mt-4">
     <div class="row">
-      <div class="col-lg-2">
-        <div id="my-chats">
+      <div class="col-lg-3 mt-4">
+        <div id="my-chats" class="p-4 section">
           <h6>Ваши собеседования</h6>
           <div class="btn btn-success mt-2" style="width: 100%;" @click="showTechnologies">
             + Новый чат
           </div>
         </div>
       </div>
-      <div class="col-lg-10 px-4">
-        <div v-if="showSelectTechnology">
+      <div class="col-lg-9 p-4">
+        <div v-if="$store.state.showTechnologies">
           <SelectTechnology />
         </div>
         <div v-else-if="userRooms.length > 0">
           User Last Chat
         </div>
         <div v-else>
-          <div class="d-flex justify-content-center align-items-center flex-column" style="height: 50vh;">
+          <div class="d-flex justify-content-center align-items-center flex-column section" style="height: 50vh;">
             <div class="mb-4">
               <h6>У вас еще нет активных диалогов</h6>
             </div>
             <div class="btn btn-success" @click="showTechnologies">
-              Начать!
+              + Новый чат
             </div>
           </div>
         </div>
@@ -80,3 +80,10 @@ export default {
   </div>
 
 </template>
+
+<style>
+.section {
+  border: 1px solid #313131;
+  border-radius: 7px;
+}
+</style>

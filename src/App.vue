@@ -28,7 +28,7 @@ body {
 }
 
 main {
-  font-family: "Montserrat", sans-serif !important;
+  /* font-family: "Montserrat", sans-serif !important; */
 }
 a {
   color: #212121;

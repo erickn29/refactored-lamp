@@ -1,15 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 body {
     background: #1a1a1a no-repeat center / 100% 100% fixed;
     font-family: "Montserrat", sans-serif;
+    /* font-family: "Ubuntu Mono", monospace !important; */
     color: #eee !important;
 }
 
 .btn {
     font-weight: 600;
     text-transform: lowercase;
-    font-size: .9rem;
+    font-size: 1rem;
     border-radius: 3px;
 }
 
@@ -25,6 +27,18 @@ body {
     box-shadow: 0 0px 20px #0052494a;
 }
 
+.btn-success:active {
+    background: #005249 !important;
+    border: 1px #005249 solid !important;
+    box-shadow: 0 0px 20px #0052494a;
+}
+
+.btn-success:disabled {
+    background: #005249 !important;
+    border: 1px #005249 solid !important;
+    box-shadow: 0 0px 20px #0052494a;
+}
+
 nav {
     background: #11111125;
     color: azure;
@@ -36,7 +50,7 @@ nav .nav-links,
     color: #eee !important;
     text-transform: lowercase !important;
     font-size: 1rem;
-    /* font-weight: bold; */
+    font-weight: bold;
     transition: .2s ease;
 }
 
@@ -44,7 +58,7 @@ nav .nav-links text:hover {
     color: #03c9b5 !important;
     text-transform: lowercase !important;
     font-size: 1rem;
-    /* font-weight: bold; */
+    font-weight: bold;
     transition: .2s ease;
 }
 
@@ -59,11 +73,12 @@ nav .nav-links text:hover {
 
 .technology.selected {
     transition: background-color 0.5s;
-    background-color: #2d0052;
+    background-color: #8320f5;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.342);
 }
 
 .technology:hover {
-    background: #2d0052;
+    background: #8320f5;
     border-radius: 3px;
     cursor: pointer;
     text-align: center;
@@ -76,6 +91,27 @@ nav .nav-links text:hover {
 }
 
 .close .buttn {
-    border: 1px solid #333;
     cursor: pointer;
+}
+
+.close .buttn:hover {
+    cursor: pointer;
+    color: #03c9b5;
+}
+
+.form-control::placeholder {
+    color: #666;
+}
+
+.form-control {
+    color: #eee;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
+}
+
+.form-control:focus {
+    color: #eee;
+    background-color: #1a1a1a;
+    border: 1px solid #8320f5;
+    box-shadow: none;
 }
