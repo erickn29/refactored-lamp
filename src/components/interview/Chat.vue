@@ -7,7 +7,7 @@ export default {
     return {
       user: {},
       isLoaded: false,
-      userRooms: [],
+      userChats: [],
       showChatWindow: false,
       // showTechnologies: false,
     }
@@ -34,15 +34,33 @@ export default {
         this.error = response.data.message;
       }
     },
+    async getChats() {
+      const response = await request(
+        "get",
+        "/interview/chat/",
+        {},
+        { "Authorization": `Bearer ${localStorage.getItem("access_token")}` },
+        {},
+      )
+      if (
+        response.status === 200
+      ) {
+        console.log(response.data)
+        this.userChats = response.data.items
+      } else {
+        this.error = response.data.message;
+      }
+    },
     async showTechnologies() {
       this.$store.state.showTechnologies = true;
     },
   },
   async mounted() {
     await this.getUser()
-    if (this.user.rooms.length > 0) {
-      this.showChatWindow = true;
-    }
+    await this.getChats()
+    // if (this.user.rooms.length > 0) {
+    //   this.showChatWindow = true;
+    // }
   }
 }
 </script>
@@ -62,7 +80,7 @@ export default {
         <div v-if="$store.state.showTechnologies">
           <SelectTechnology />
         </div>
-        <div v-else-if="userRooms.length > 0">
+        <div v-else-if="userChats.length > 0">
           User Last Chat
         </div>
         <div v-else>

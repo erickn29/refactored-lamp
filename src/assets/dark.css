@@ -39,6 +39,32 @@ body {
     box-shadow: 0 0px 20px #0052494a;
 }
 
+.btn-warning {
+    background: #a95c23;
+    border: 1px #a95c23 solid;
+    box-shadow: 0 0px 20px #a95c234a;
+    color: #fff;
+}
+
+.btn-warning:hover {
+    background: #81471b;
+    border: 1px #81471b solid;
+    box-shadow: 0 0px 20px #81471b4a;
+    color: #fff;
+}
+
+.btn-warning:active {
+    background: #81471b !important;
+    border: 1px #81471b solid !important;
+    box-shadow: 0 0px 20px #81471b;
+}
+
+.btn-warning:disabled {
+    background: #81471b !important;
+    border: 1px #81471b solid !important;
+    box-shadow: 0 0px 20px #81471b;
+}
+
 nav {
     background: #11111125;
     color: azure;
