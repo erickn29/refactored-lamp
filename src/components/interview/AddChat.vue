@@ -96,7 +96,7 @@ export default {
 </script>
 
 <template>
-  <div class="container-fluid p-4" style="border: 1px solid #333; border-radius: 7px;">
+  <div class="container-fluid mt-2 p-4" style="border: 1px solid #333; border-radius: 7px;">
     <div class="close pb-2" id="close-technology" @click="closeSelectTechnologies">
       <span class="buttn py-2">
         [x]

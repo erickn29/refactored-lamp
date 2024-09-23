@@ -91,7 +91,7 @@ export default {
     <div class="row">
       <div class="col-lg-3 mt-4">
         <h6>Ваши собеседования [{{ userChats.length }}/10]</h6>
-        <div class="my-chats p-4 section mt-4">
+        <div class="my-chats p-4 section my-4">
           <div v-if="userChats.length < 10 || user.is_admin == true" class="btn btn-success mt-2" style="width: 100%;"
             @click="showTechnologies">
             + Новое собеседование
@@ -104,7 +104,7 @@ export default {
           </div>
         </div>
       </div>
-      <div class="col-lg-9 p-4">
+      <div class="col-lg-9 px-4">
         <div v-if="$store.state.showTechnologies">
           <SelectTechnology />
         </div>
