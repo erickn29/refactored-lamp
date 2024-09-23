@@ -5,9 +5,16 @@ export default {
 </script>
 
 <template>
-
+  <div class="footer d-flex justify-content-center p-4">
+    <div class="info">
+      footer
+    </div>
+  </div>
 </template>
 
-<style scoped>
-
+<style>
+.footer {
+  height: 333px;
+  background: #121212;
+}
 </style>

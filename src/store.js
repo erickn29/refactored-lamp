@@ -6,7 +6,8 @@ const store = createStore({
     return {
       user: {},
       showTechnologies: false,
-      userChats: []
+      userChats: [],
+      currentChat: null,
     }
   },
   mutations: {

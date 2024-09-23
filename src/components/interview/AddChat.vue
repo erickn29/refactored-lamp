@@ -65,6 +65,9 @@ export default {
         { "Authorization": `Bearer ${localStorage.getItem("access_token")}` },
         {},
       )
+      if (response.status === 201) {
+        window.location.reload()
+      }
     },
     handleVisibilityChange() {
       if (document.hidden) {

@@ -5,38 +5,39 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import store from "@/store";
 import VacancyList from './components/vacancy/VacancyList.vue'
-import Interview from "./components/interview/Chat.vue"
+import Chat from "./components/interview/Chat.vue"
 import Registration from './components/Registration.vue'
 import Login from './components/Login.vue'
+import ChatWindow from './components/interview/ChatWindow.vue'
 
 const router = createRouter({
-    routes: [
+  routes: [
+    {
+      path: '/',
+      component: VacancyList,
+    },
+    {
+      path: '/interview',
+      component: Chat,
+      children: [
         {
-            path: '/',
-            component: VacancyList,
-        },
-        {
-            path: '/interview',
-            component: Interview,
-            // children: [
-            //     {
-            //         path: "/chat", 
-            //         component: Chat,
-            //     }
-            // ],
-        },
-        {
-            path: '/registration',
-            component: Registration,
-        },
-        {
-            path: '/login',
-            component: Login,
-        },
-    ],
-    history: createWebHistory(),
-    scrollBehavior() {},
-    autoResetScroll: true,
+          path: "/chat/:id",
+          component: ChatWindow,
+        }
+      ],
+    },
+    {
+      path: '/registration',
+      component: Registration,
+    },
+    {
+      path: '/login',
+      component: Login,
+    },
+  ],
+  history: createWebHistory(),
+  scrollBehavior() { },
+  autoResetScroll: true,
 })
 
 const app = createApp(App)
@@ -45,5 +46,5 @@ app.use(store)
 app.mount('#app')
 
 export default {
-    $router: router,
+  $router: router,
 };

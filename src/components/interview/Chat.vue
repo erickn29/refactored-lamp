@@ -1,6 +1,7 @@
 <script>
 import request from "@/requests";
 import SelectTechnology from "./AddChat.vue";
+import ChatWindow from "./ChatWindow.vue";
 
 export default {
   data() {
@@ -9,11 +10,12 @@ export default {
       isLoaded: false,
       userChats: [],
       showChatWindow: false,
-      // showTechnologies: false,
+      selectedChat: null,
     }
   },
   components: {
     SelectTechnology,
+    ChatWindow,
   },
   methods: {
     async getUser() {
@@ -27,7 +29,6 @@ export default {
       if (
         response.status === 200
       ) {
-        this.isLoaded = true;
         this.user = response.data
         this.$store.state.user = this.user
       } else {
@@ -45,14 +46,34 @@ export default {
       if (
         response.status === 200
       ) {
-        console.log(response.data)
+        this.$store.state.currentChat = response.data.items[0]
+        this.isLoaded = true;
         this.userChats = response.data.items
       } else {
         this.error = response.data.message;
       }
     },
+    async selectChat(chatId) {
+      const chat = this.userChats.find(chat => chat.id === chatId);
+      if (chat) {
+        this.selectedChat = chat.id;
+        this.$store.state.currentChat = chat;
+        this.$store.state.showTechnologies = false;
+      } else {
+        console.error(`Чат с id ${chatId} не найден.`);
+      }
+    },
+    isSelectedChat(chatId) {
+      return this.selectedChat == chatId;
+    },
     async showTechnologies() {
       this.$store.state.showTechnologies = true;
+    },
+    truncateTitle(title, length = 22) {
+      if (title.length > length) {
+        return title.substring(0, length) + '...';
+      }
+      return title;
     },
   },
   async mounted() {
@@ -69,10 +90,17 @@ export default {
   <div v-if="isLoaded" class="container mt-4">
     <div class="row">
       <div class="col-lg-3 mt-4">
-        <div id="my-chats" class="p-4 section">
-          <h6>Ваши собеседования</h6>
-          <div class="btn btn-success mt-2" style="width: 100%;" @click="showTechnologies">
-            + Новый чат
+        <h6>Ваши собеседования [{{ userChats.length }}/10]</h6>
+        <div class="my-chats p-4 section mt-4">
+          <div v-if="userChats.length < 10 || user.is_admin == true" class="btn btn-success mt-2" style="width: 100%;"
+            @click="showTechnologies">
+            + Новое собеседование
+          </div>
+          <div class="user-chats mt-4">
+            <div class="user-chat mb-3" v-for="chat in userChats" :key="chat.id" @click="selectChat(chat.id)"
+              :class="{ selected: isSelectedChat(chat.id) }">
+              {{ truncateTitle(chat.title) }}
+            </div>
           </div>
         </div>
       </div>
@@ -80,8 +108,12 @@ export default {
         <div v-if="$store.state.showTechnologies">
           <SelectTechnology />
         </div>
+        <div v-else-if="$store.state.currentChat">
+          <ChatWindow />
+        </div>
         <div v-else-if="userChats.length > 0">
-          User Last Chat
+          {{ userChats[0].id }}
+          {{ userChats[0].title }}
         </div>
         <div v-else>
           <div class="d-flex justify-content-center align-items-center flex-column section" style="height: 50vh;">
@@ -89,7 +121,7 @@ export default {
               <h6>У вас еще нет активных диалогов</h6>
             </div>
             <div class="btn btn-success" @click="showTechnologies">
-              + Новый чат
+              + Новое собеседование
             </div>
           </div>
         </div>

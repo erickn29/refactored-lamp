@@ -2,12 +2,14 @@
 import VacancyList from "./components/vacancy/VacancyList.vue"
 import Filter from "./components/vacancy/Filter.vue"
 import Navbar from "./components/Navbar.vue"
+import Footer from "./components/Footer.vue";
 
 export default {
   components: {
     VacancyList,
     Filter,
     Navbar,
+    Footer
   },
 }
 </script>
@@ -19,6 +21,9 @@ export default {
       <router-view />
     </main>
   </div>
+  <footer>
+    <Footer />
+  </footer>
 </template>
 
 <style>
