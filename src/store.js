@@ -8,6 +8,8 @@ const store = createStore({
       showTechnologies: false,
       userChats: [],
       currentChat: null,
+      lastQuestion: null,
+      isUserMessage: null,
     }
   },
   mutations: {

@@ -15,24 +15,29 @@ const router = createRouter({
     {
       path: '/',
       component: VacancyList,
+      meta: { transition: 'fade' },
     },
     {
       path: '/interview',
       component: Chat,
+      meta: { transition: 'fade' },
       children: [
         {
           path: "/chat/:id",
           component: ChatWindow,
+          meta: { transition: 'fade' },
         }
       ],
     },
     {
       path: '/registration',
       component: Registration,
+      meta: { transition: 'fade' },
     },
     {
       path: '/login',
       component: Login,
+      meta: { transition: 'slide-left' },
     },
   ],
   history: createWebHistory(),

@@ -64,7 +64,9 @@ export default {
       if (
         response.status === 200
       ) {
-        console.log(response.data)
+        console.log(response.data.messages[response.data.messages.length - 1])
+        const lastMessage = response.data.messages[response.data.messages.length - 1]
+        this.$store.state.isUserMessage = lastMessage.is_user_message
       } else {
         this.error = response.data.message;
       }

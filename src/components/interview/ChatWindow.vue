@@ -7,6 +7,7 @@ export default {
     return {
       showTechnologies: true,
       text: "",
+      isUserMessage: null,
     }
   },
   components: {
@@ -17,11 +18,38 @@ export default {
       const height = this.$refs.textarea.scrollHeight;
       this.$refs.textarea.style.height = `${height}px`;
     },
-
+    async getNewQuestion() {
+      const response = await request(
+        "get",
+        `/interview/q/${this.$store.state.currentChat.id}/`,
+        {},
+        { "Authorization": `Bearer ${localStorage.getItem("access_token")}` },
+        {},
+      )
+      if (response.status == 200) {
+        this.$store.state.lastQuestion = response.data
+        await this.getChat()
+      }
+    },
+    async getChat() {
+      const response = await request(
+        "get",
+        `/interview/chat/${this.$store.state.currentChat.id}/`,
+        {},
+        { "Authorization": `Bearer ${localStorage.getItem("access_token")}` },
+        {},
+      )
+      if (
+        response.status === 200
+      ) {
+        this.$store.state.currentChat.messages = response.data.messages
+        this.$store.state.isUserMessage = response.data.messages[-1].is_user_message
+      } else {
+        this.error = response.data.message;
+      }
+    },
   },
   async mounted() {
-    // вызываем метод при загрузке компонента
-    // await this.getChat();
     this.resizeTextarea();
   }
 }
@@ -32,13 +60,12 @@ export default {
     <div class="chat d-flex mb-4">
       <div class="messages p-4">
         <div v-for="msg in $store.state.currentChat.messages" :key="msg.id"
-          :class="msg.is_user_message === true ? 'message p-2 mb-4 user-message' : 'message p-2 mb-4'"
-        >
+          :class="msg.is_user_message === true ? 'message p-2 mb-4 user-message' : 'message p-2 mb-4'">
           {{ msg.text }}
         </div>
       </div>
       <div class="controls">
-        <div class="user-message-area row">
+        <div v-show="!$store.state.isUserMessage" class="user-message-area row">
           <div class="col-11">
             <textarea name="" id="" style="min-height: 55px; overflow: hidden;" ref="textarea" class="form-control"
               v-model="text" placeholder="Введите свой ответ..." @input="resizeTextarea">
@@ -54,7 +81,9 @@ export default {
             </div>
           </div>
         </div>
-        <div style="width: 100%;" class="btn btn-success">следующий вопрос</div>
+        <div v-show="$store.state.isUserMessage" style="width: 100%;" class="btn btn-success" @click="getNewQuestion">
+          следующий вопрос
+        </div>
       </div>
     </div>
   </div>
