@@ -47,8 +47,24 @@ export default {
         response.status === 200
       ) {
         this.$store.state.currentChat = response.data.items[0]
-        this.isLoaded = true;
+        this.selectedChat = response.data.items[0].id
         this.userChats = response.data.items
+      } else {
+        this.error = response.data.message;
+      }
+    },
+    async getChat() {
+      const response = await request(
+        "get",
+        `/interview/chat/${this.$store.state.currentChat.id}/`,
+        {},
+        { "Authorization": `Bearer ${localStorage.getItem("access_token")}` },
+        {},
+      )
+      if (
+        response.status === 200
+      ) {
+        console.log(response.data)
       } else {
         this.error = response.data.message;
       }
@@ -59,6 +75,7 @@ export default {
         this.selectedChat = chat.id;
         this.$store.state.currentChat = chat;
         this.$store.state.showTechnologies = false;
+        await this.getChat()
       } else {
         console.error(`Чат с id ${chatId} не найден.`);
       }
@@ -79,6 +96,8 @@ export default {
   async mounted() {
     await this.getUser()
     await this.getChats()
+    // await this.getChat()
+    this.isLoaded = true;
     // if (this.user.rooms.length > 0) {
     //   this.showChatWindow = true;
     // }
@@ -126,6 +145,11 @@ export default {
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  <div v-else>
+    <div class="loader">
+
     </div>
   </div>
 
