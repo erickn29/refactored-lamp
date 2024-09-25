@@ -8,6 +8,7 @@ export default {
       showTechnologies: true,
       text: "",
       isUserMessage: null,
+      lastQuestion: null,
     }
   },
   components: {
@@ -18,7 +19,7 @@ export default {
       const height = this.$refs.textarea.scrollHeight;
       this.$refs.textarea.style.height = `${height}px`;
     },
-    async getNewQuestion() {
+    async getQuestion() {
       const response = await request(
         "get",
         `/interview/q/${this.$store.state.currentChat.id}/`,
@@ -28,6 +29,23 @@ export default {
       )
       if (response.status == 200) {
         this.$store.state.lastQuestion = response.data
+        await this.getChat()
+      }
+    },
+    async sendAnswer() {
+      console.log(this.lastQuestion)
+      const response = await request(
+        "post",
+        `/interview/a/${this.$store.state.currentChat.id}/`,
+        {
+          question_id: this.lastQuestion.id,
+          text: this.text,
+        },
+        { "Authorization": `Bearer ${localStorage.getItem("access_token")}` },
+        {},
+      )
+      if (response.status == 201) {
+        this.text = ""
         await this.getChat()
       }
     },
@@ -42,14 +60,24 @@ export default {
       if (
         response.status === 200
       ) {
-        this.$store.state.currentChat.messages = response.data.messages
-        this.$store.state.isUserMessage = response.data.messages[-1].is_user_message
+        // this.$store.state.currentChat.messages = response.data.messages
+        const messages = response.data.messages
+        if (messages.length > 0) {
+          const lastMessage = response.data.messages[response.data.messages.length - 1]
+          if (!lastMessage.is_user_message) {
+            this.lastQuestion = lastMessage
+          }
+        }
+        
+        this.$store.state.isUserMessage = lastMessage.is_user_message
+        console.log(this.$store.state.isUserMessage)
       } else {
         this.error = response.data.message;
       }
     },
   },
   async mounted() {
+    await this.getChat();
     this.resizeTextarea();
   }
 }
@@ -66,13 +94,17 @@ export default {
       </div>
       <div class="controls">
         <div v-show="!$store.state.isUserMessage" class="user-message-area row">
-          <div class="col-11">
-            <textarea name="" id="" style="min-height: 55px; overflow: hidden;" ref="textarea" class="form-control"
-              v-model="text" placeholder="Введите свой ответ..." @input="resizeTextarea">
-          </textarea>
+          <div class="col-11" style="padding-right: 0;">
+            <textarea name="" id="" style="min-height: 55px; overflow: hidden; resize: none; border-radius: 5px 0px 0px 5px;" ref="textarea"
+              class="form-control" v-model="text" placeholder="Введите свой ответ..." @input="resizeTextarea">
+            </textarea>
           </div>
-          <div class="col-1 d-flex justify-content-center align-items-center" style="">
-            <div class="d-flex justify-content-center align-items-center send-btn" style="">
+          <div class="col-1 d-flex justify-content-center align-items-center" style="padding-left: 0;">
+            <div 
+              class="d-flex justify-content-center align-items-center send-btn" 
+              style=""
+              @click="sendAnswer"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" class="bi bi-send-fill"
                 viewBox="0 0 16 16">
                 <path
@@ -81,7 +113,7 @@ export default {
             </div>
           </div>
         </div>
-        <div v-show="$store.state.isUserMessage" style="width: 100%;" class="btn btn-success" @click="getNewQuestion">
+        <div v-show="$store.state.isUserMessage" style="width: 100%; padding: 15px;" class="btn btn-success" @click="getQuestion">
           следующий вопрос
         </div>
       </div>

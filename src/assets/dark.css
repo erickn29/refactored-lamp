@@ -189,7 +189,7 @@ nav .nav-links text:hover {
 }
 
 .user-chat:hover {
-    background-color: #8320f5;
+    background-color: #333;
     color: #fff;
     transition: .2s;
 }
@@ -244,18 +244,18 @@ textarea {
     border: 1px solid #641cb8 !important;
 }
 
-.send-btn {
+.send-btn svg {
     /* border: 1px solid #1a1a1a; */
-    border-radius: 7px;
-    background-color: #641cb8;
+    /* border-radius: 7px;
+    background-color: #641cb8; */
     cursor: pointer;
     transition: .2s;
-    width: 100%;
-    height: 50px;
+    /* width: 100%;
+    height: 50px; */
 }
 
-.send-btn:hover {
-    background-color: #491585;
+.send-btn svg:hover {
+    fill: #641cb8;
     transition: .2s;
 }
 
