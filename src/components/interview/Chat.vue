@@ -53,30 +53,6 @@ export default {
         this.error = response.data.message;
       }
     },
-    async getChat() {
-      const response = await request(
-        "get",
-        `/interview/chat/${this.$store.state.currentChat.id}/`,
-        {},
-        { "Authorization": `Bearer ${localStorage.getItem("access_token")}` },
-        {},
-      )
-      if (
-        response.status === 200
-      ) {
-        this.$store.state.currentChat.messages = response.data.messages
-        const lastMessage = response.data.messages[response.data.messages.length - 1]
-        if (lastMessage) {
-          this.$store.state.isUserMessage = lastMessage.is_user_message
-        } else {
-          this.$store.state.isUserMessage = true;
-        }
-        
-        console.log(this.$store.state.isUserMessage)
-      } else {
-        this.error = response.data.message;
-      }
-    },
     async selectChat(chatId) {
       const chat = this.userChats.find(chat => chat.id === chatId);
       if (chat) {
@@ -137,10 +113,6 @@ export default {
         </div>
         <div v-else-if="$store.state.currentChat">
           <ChatWindow />
-        </div>
-        <div v-else-if="userChats.length > 0">
-          {{ userChats[0].id }}
-          {{ userChats[0].title }}
         </div>
         <div v-else>
           <div class="d-flex justify-content-center align-items-center flex-column section" style="height: 50vh;">

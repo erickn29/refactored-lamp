@@ -32,7 +32,6 @@ export default {
         {},
       )
       if (response.status == 200) {
-        console.log(response)
         await this.getChat()
         this.showLoader = false
       }
@@ -66,7 +65,12 @@ export default {
       if (
         response.status === 200
       ) {
+        let div = document.getElementById(this.$store.state.currentChat.id);
+        console.log("getChat", this.$store.state.currentChat.title)
+        console.log("getChat", this.$store.state.currentChat.id)
+        console.log("getChat", div.scrollHeight)
         this.messages = response.data.messages
+        div.scrollTo(0, 99999999999)
         if (this.messages.length > 0) {
           const lastMessage = this.messages[response.data.messages.length - 1]
           if (lastMessage.type == "question") {
@@ -86,13 +90,18 @@ export default {
     },
   },
   watch: {
-    '$store.state.currentChat': function () {
-      this.getChat();
+    '$store.state.currentChat': async function () {
+      await this.getChat();
     }
   },
   async mounted() {
     this.showLoader = true;
     await this.getChat();
+    let div = document.getElementById(this.$store.state.currentChat.id);
+    console.log("mounted", this.$store.state.currentChat.title)
+    console.log("mounted", this.$store.state.currentChat.id)
+    console.log("mounted", div.scrollHeight)
+    div.scrollTop = div.scrollHeight
     if (this.showTextArea) {
       this.resizeTextarea();
     }
@@ -108,7 +117,7 @@ export default {
           <span class="spinner"></span>
         </div>
       </div>
-      <div class="messages p-4">
+      <div class="messages p-4" :id="$store.state.currentChat.id">
         <div v-for="msg in messages" :key="msg.id"
           :class="msg.type === 'answer' ? 'message p-3 mb-4 user-message' : 'message p-3 mb-4'">
           <div v-html="msg.text"></div>
