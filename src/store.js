@@ -8,6 +8,7 @@ const store = createStore({
       showTechnologies: false,
       userChats: [],
       currentChat: null,
+      showLeftSlider: false,
       // lastQuestion: null,
       // isUserMessage: null,
     }

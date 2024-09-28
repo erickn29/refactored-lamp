@@ -12,6 +12,7 @@ export default {
       chat: null,
       messages: [],
       questionId: null,
+      disableControls: false,
     }
   },
   components: {
@@ -33,11 +34,13 @@ export default {
       )
       if (response.status == 200) {
         await this.getChat()
+        // this.messages = response.data.messages
         this.showLoader = false
       }
     },
     async sendAnswer() {
       this.showLoader = true
+      this.disableControls = true
       const response = await request(
         "post",
         `/interview/a/${this.$store.state.currentChat.id}/`,
@@ -51,8 +54,22 @@ export default {
       if (response.status == 201) {
         this.text = ""
         await this.getChat()
+        // this.messages = response.data.messages
+        this.disableControls = false
         this.showLoader = false
       }
+    },
+    async scrollToBottom() {
+      let div = document.getElementById(this.$store.state.currentChat.id);
+      // div.scrollTop = 9999999
+      div.scrollTo({
+        top: div.scrollHeight,
+        left: 0,
+        // behavior: "smooth",
+      });
+    },
+    isDisabledControls () {
+      return this.disableControls
     },
     async getChat() {
       const response = await request(
@@ -65,16 +82,10 @@ export default {
       if (
         response.status === 200
       ) {
-        let div = document.getElementById(this.$store.state.currentChat.id);
-        console.log("getChat", this.$store.state.currentChat.title)
-        console.log("getChat", this.$store.state.currentChat.id)
-        console.log("getChat", div.scrollHeight)
         this.messages = response.data.messages
-        div.scrollTo(0, 99999999999)
         if (this.messages.length > 0) {
           const lastMessage = this.messages[response.data.messages.length - 1]
           if (lastMessage.type == "question") {
-            console.log(lastMessage)
             this.questionId = lastMessage.question_id
             this.showTextArea = true
           } else {
@@ -83,6 +94,10 @@ export default {
         } else {
           this.showTextArea = false
         }
+        setTimeout(() => {
+          this.scrollToBottom();
+        }, "1 second");
+        
         this.showLoader = false
       } else {
         this.error = response.data.message;
@@ -97,11 +112,7 @@ export default {
   async mounted() {
     this.showLoader = true;
     await this.getChat();
-    let div = document.getElementById(this.$store.state.currentChat.id);
-    console.log("mounted", this.$store.state.currentChat.title)
-    console.log("mounted", this.$store.state.currentChat.id)
-    console.log("mounted", div.scrollHeight)
-    div.scrollTop = div.scrollHeight
+    await this.scrollToBottom()
     if (this.showTextArea) {
       this.resizeTextarea();
     }
@@ -110,14 +121,14 @@ export default {
 </script>
 
 <template>
-  <div class="container">
+  <div class="container" id="message-container">
     <div class="chat d-flex mb-4">
       <div v-if="showLoader" style="position: relative; width: 100%; height: 100%;">
         <div class="spinner-container">
           <span class="spinner"></span>
         </div>
       </div>
-      <div class="messages p-4" :id="$store.state.currentChat.id">
+      <div class="messages p-4" :id="$store.state.currentChat.id" @change="scrollToBottom">
         <div v-for="msg in messages" :key="msg.id"
           :class="msg.type === 'answer' ? 'message p-3 mb-4 user-message' : 'message p-3 mb-4'">
           <div v-html="msg.text"></div>
@@ -126,13 +137,17 @@ export default {
       <div class="controls">
         <div v-if="showTextArea" class="user-message-area row">
           <div class="col-11" style="padding-right: 0;">
-            <textarea name="" id=""
+            <textarea
               style="min-height: 55px; overflow: hidden; resize: none; border-radius: 5px 0px 0px 5px;" ref="textarea"
-              class="form-control" v-model="text" placeholder="Введите свой ответ..." @input="resizeTextarea">
+              class="form-control" v-model="text" placeholder="Введите свой ответ..."
+              @input="resizeTextarea"
+            >
             </textarea>
           </div>
           <div class="col-1 d-flex justify-content-center align-items-center" style="padding-left: 0;">
-            <div class="d-flex justify-content-center align-items-center send-btn" style="" @click="sendAnswer">
+            <div v-if="!disableControls"
+              class="d-flex justify-content-center align-items-center send-btn" style="" @click="sendAnswer"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" class="bi bi-send-fill"
                 viewBox="0 0 16 16">
                 <path

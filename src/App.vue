@@ -3,19 +3,22 @@ import VacancyList from "./components/vacancy/VacancyList.vue"
 import Filter from "./components/vacancy/Filter.vue"
 import Navbar from "./components/Navbar.vue"
 import Footer from "./components/Footer.vue";
+import LeftSlider from "./components/LeftSlider.vue";
 
 export default {
   components: {
     VacancyList,
     Filter,
     Navbar,
-    Footer
+    Footer,
+    LeftSlider,
   },
 }
 </script>
 
 <template>
   <Navbar />
+  <LeftSlider />
   <div class="container">
     <main>
       <router-view />
