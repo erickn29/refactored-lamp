@@ -364,6 +364,10 @@ textarea {
     margin-top: 0px !important;
   }
 
+  .message {
+    max-width: 90%;
+  }
+
   .chats-wrapper {
     position: sticky;
     top: 60px;

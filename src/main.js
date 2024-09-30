@@ -9,12 +9,13 @@ import Chat from "./components/interview/Chat.vue"
 import Registration from './components/Registration.vue'
 import Login from './components/Login.vue'
 import ChatWindow from './components/interview/ChatWindow.vue'
+import About from './components/About.vue';
 
 const router = createRouter({
   routes: [
     {
       path: '/',
-      component: VacancyList,
+      component: About,
       meta: { transition: 'fade' },
     },
     {
