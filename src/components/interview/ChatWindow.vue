@@ -136,7 +136,7 @@ export default {
       </div>
       <div class="controls">
         <div v-if="showTextArea" class="user-message-area row">
-          <div class="col-11" style="padding-right: 0;">
+          <div class="col-xl-11 col-10" style="padding-right: 0;">
             <textarea
               style="min-height: 55px; overflow: hidden; resize: none; border-radius: 5px 0px 0px 5px;" ref="textarea"
               class="form-control" v-model="text" placeholder="Введите свой ответ..."
@@ -144,7 +144,7 @@ export default {
             >
             </textarea>
           </div>
-          <div class="col-1 d-flex justify-content-center align-items-center" style="padding-left: 0;">
+          <div class="col-xl-1 col-2 d-flex justify-content-center align-items-center" style="padding-left: 0;">
             <div v-if="!disableControls"
               class="d-flex justify-content-center align-items-center send-btn" style="" @click="sendAnswer"
             >

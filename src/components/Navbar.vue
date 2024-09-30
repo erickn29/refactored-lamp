@@ -26,12 +26,12 @@ export default {
     </div>
     <div class="container" style="margin-left: 0; padding-left: 0px;">
       <div class="navbar">
-        <div class="col-lg-3" style="padding: 6px 6px">
+        <div class="col-xl-3" style="padding: 6px 6px">
           <div class="logo">
             IT-RADAR
           </div>
         </div>
-        <div class="col-lg-9 d-flex gap-4 align-items-center justify-content-center">
+        <div class="col-xl-9 d-flex gap-4 align-items-center justify-content-center">
           <div v-if="$store.state.user.email">
             <div class="nav-links">
               {{ $store.state.user.email }}

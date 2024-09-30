@@ -72,7 +72,7 @@ export default {
 
 <template>
   <section class="mt-4 row">
-    <div class="col-lg-3 mb-4">
+    <div class="col-xl-3 mb-4">
       <div class="counter mb-4">Уточнить поиск:</div>
       <div class="filter shadow-box">
         <div class="language selector mb-4">
@@ -115,7 +115,7 @@ export default {
       </div>
     </div>
 
-    <div v-if="vacancies" class="col-lg-9">
+    <div v-if="vacancies" class="col-xl-9">
       <div class="counter mb-4">Найдено вакансий: {{ pagination.count }}</div>
       <div v-for="vacancy in vacancies" key="vacancy.id" class="vacancy shadow-box">
         <div class="vacancy-title mb-2">

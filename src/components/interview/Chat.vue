@@ -90,10 +90,12 @@ export default {
 </script>
 
 <template>
-  <div v-if="isLoaded" class="container mt-4">
+  <div v-if="isLoaded" class="container mt-4 chat-container">
     <div class="row">
-      <div class="col-xl-3 mt-4">
-        <h6>Ваши собеседования [{{ userChats.length }}/10]</h6>
+      <div class="col-xl-3 mt-4 chats-wrapper">
+        <div class="chats-header">
+          <h6>Ваши собеседования [{{ userChats.length }}/10]</h6>
+        </div>
         <div class="my-chats p-4 section my-4">
           <div v-if="userChats.length < 10 || user.is_admin == true" class="btn btn-success mt-2" style="width: 100%;"
             @click="showTechnologies">
@@ -105,6 +107,24 @@ export default {
               {{ truncateTitle(chat.title) }}
             </div>
           </div>
+        </div>
+        <div class="my-chats-mob p-4 section my-4">
+          <details>
+            <summary>
+              {{ $store.state.currentChat.title }}
+            </summary>
+            <div v-if="userChats.length < 10 || user.is_admin == true" class="btn btn-success mt-4 p-2" style="width: 100%;"
+            @click="showTechnologies">
+            + Новое собеседование
+          </div>
+          <div class="user-chats mt-4">
+            <div class="user-chat mb-3" v-for="chat in userChats" :key="chat.id" @click="selectChat(chat.id)"
+              :class="{ selected: isSelectedChat(chat.id) }">
+              {{ truncateTitle(chat.title) }}
+            </div>
+          </div>
+          </details>
+          
         </div>
       </div>
       <div class="col-xl-9 px-4" id="message-container-wrapper">
