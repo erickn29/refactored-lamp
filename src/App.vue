@@ -5,6 +5,8 @@ import Navbar from "./components/Navbar.vue"
 import Footer from "./components/Footer.vue";
 import LeftSlider from "./components/LeftSlider.vue";
 
+import request from "@/requests";
+
 export default {
   components: {
     VacancyList,
@@ -13,6 +15,29 @@ export default {
     Footer,
     LeftSlider,
   },
+  methods: {
+    async getUser() {
+      const response = await request(
+        "get",
+        "/user/me/",
+        {},
+        { "Authorization": `Bearer ${localStorage.getItem("access_token")}` },
+        {},
+      )
+      if (
+        response.status === 200
+      ) {
+        this.user = response.data
+        this.$store.state.user = this.user
+      } else {
+        this.error = response.data.message;
+      }
+    },
+  },
+  async mounted() {
+    await this.getUser()
+    this.isLoaded = true;
+  }
 }
 </script>
 
