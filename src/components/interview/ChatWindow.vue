@@ -83,7 +83,8 @@ export default {
         response.status === 200
       ) {
         console.log(response.data)
-        this.messages = response.data.messages.reverse()
+        // this.messages = response.data.messages.reverse()
+        this.messages = response.data.messages
         if (this.messages.length > 0) {
           const lastMessage = this.messages[response.data.messages.length - 1]
           if (lastMessage.type == "question") {
