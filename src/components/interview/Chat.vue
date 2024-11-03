@@ -3,6 +3,7 @@ import request from "@/requests";
 import SelectTechnology from "./AddChat.vue";
 import ChatWindow from "./ChatWindow.vue";
 import ForbiddenEmail from "../ForbiddenEmail.vue";
+import meRequest from '@/endpoints/user/me';
 
 export default {
   data() {
@@ -22,13 +23,7 @@ export default {
   },
   methods: {
     async getUser() {
-      const response = await request(
-        "get",
-        "/user/me/",
-        {},
-        { "Authorization": `Bearer ${localStorage.getItem("access_token")}` },
-        {},
-      )
+      const response = await meRequest()
       if (
         response.status === 200
       ) {

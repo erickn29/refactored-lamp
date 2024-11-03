@@ -17,7 +17,7 @@ export default {
     async register() {
       const response = await registrationRequest(this.user.email, this.user.password)
       if (response === true) {
-        this.$router.push('/interview')
+        this.$router.push('/')
       }
     },
   }
