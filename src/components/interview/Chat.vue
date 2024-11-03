@@ -2,6 +2,7 @@
 import request from "@/requests";
 import SelectTechnology from "./AddChat.vue";
 import ChatWindow from "./ChatWindow.vue";
+import ForbiddenEmail from "../ForbiddenEmail.vue";
 
 export default {
   data() {
@@ -11,11 +12,13 @@ export default {
       userChats: [],
       showChatWindow: false,
       selectedChat: null,
+      isForbiddenEmail: true,
     }
   },
   components: {
     SelectTechnology,
     ChatWindow,
+    ForbiddenEmail,
   },
   methods: {
     async getUser() {
@@ -43,9 +46,11 @@ export default {
         { "Authorization": `Bearer ${localStorage.getItem("access_token")}` },
         {},
       )
+      console.log(response)
       if (
         response.status === 200
       ) {
+        this.isForbiddenEmail = false
         this.$store.state.currentChat = response.data.items[0]
         this.selectedChat = response.data.items[0].id
         this.userChats = response.data.items
@@ -91,56 +96,61 @@ export default {
 
 <template>
   <div v-if="isLoaded" class="container mt-4 chat-container">
-    <div class="row">
-      <div class="col-xl-3 mt-4 chats-wrapper">
-        <div class="chats-header">
-          <h6>Ваши собеседования [{{ userChats.length }}/10]</h6>
-        </div>
-        <div class="my-chats p-4 section my-4">
-          <div v-if="userChats.length < 10 || user.is_admin == true" class="btn btn-success mt-2" style="width: 100%;"
-            @click="showTechnologies">
-            + Новое собеседование
+    <div v-if="isForbiddenEmail">
+      <ForbiddenEmail />
+    </div>
+    <div v-else>
+      <div class="row">
+        <div class="col-xl-3 mt-4 chats-wrapper">
+          <div class="chats-header">
+            <h6>Ваши собеседования [{{ userChats.length }}/10]</h6>
           </div>
-          <div class="user-chats mt-4">
-            <div class="user-chat mb-3" v-for="chat in userChats" :key="chat.id" @click="selectChat(chat.id)"
-              :class="{ selected: isSelectedChat(chat.id) }">
-              {{ truncateTitle(chat.title) }}
-            </div>
-          </div>
-        </div>
-        <div class="my-chats-mob p-4 section my-4">
-          <details>
-            <summary>
-              {{ $store.state.currentChat.title }}
-            </summary>
-            <div v-if="userChats.length < 10 || user.is_admin == true" class="btn btn-success mt-4 p-2" style="width: 100%;"
-            @click="showTechnologies">
-            + Новое собеседование
-          </div>
-          <div class="user-chats mt-4">
-            <div class="user-chat mb-3" v-for="chat in userChats" :key="chat.id" @click="selectChat(chat.id)"
-              :class="{ selected: isSelectedChat(chat.id) }">
-              {{ truncateTitle(chat.title) }}
-            </div>
-          </div>
-          </details>
-          
-        </div>
-      </div>
-      <div class="col-xl-9 px-4" id="message-container-wrapper">
-        <div v-if="$store.state.showTechnologies">
-          <SelectTechnology />
-        </div>
-        <div v-else-if="$store.state.currentChat">
-          <ChatWindow />
-        </div>
-        <div v-else>
-          <div class="d-flex justify-content-center align-items-center flex-column section" style="height: 50vh;">
-            <div class="mb-4">
-              <h6>У вас еще нет активных диалогов</h6>
-            </div>
-            <div class="btn btn-success" @click="showTechnologies">
+          <div class="my-chats p-4 section my-4">
+            <div v-if="userChats.length < 10 || user.is_admin == true" class="btn btn-success mt-2" style="width: 100%;"
+              @click="showTechnologies">
               + Новое собеседование
+            </div>
+            <div class="user-chats mt-4">
+              <div class="user-chat mb-3" v-for="chat in userChats" :key="chat.id" @click="selectChat(chat.id)"
+                :class="{ selected: isSelectedChat(chat.id) }">
+                {{ truncateTitle(chat.title) }}
+              </div>
+            </div>
+          </div>
+          <div class="my-chats-mob p-4 section my-4">
+            <details>
+              <summary>
+                {{ $store.state.currentChat.title }}
+              </summary>
+              <div v-if="userChats.length < 10 || user.is_admin == true" class="btn btn-success mt-4 p-2"
+                style="width: 100%;" @click="showTechnologies">
+                + Новое собеседование
+              </div>
+              <div class="user-chats mt-4">
+                <div class="user-chat mb-3" v-for="chat in userChats" :key="chat.id" @click="selectChat(chat.id)"
+                  :class="{ selected: isSelectedChat(chat.id) }">
+                  {{ truncateTitle(chat.title) }}
+                </div>
+              </div>
+            </details>
+
+          </div>
+        </div>
+        <div class="col-xl-9 px-4" id="message-container-wrapper">
+          <div v-if="$store.state.showTechnologies">
+            <SelectTechnology />
+          </div>
+          <div v-else-if="$store.state.currentChat">
+            <ChatWindow />
+          </div>
+          <div v-else>
+            <div class="d-flex justify-content-center align-items-center flex-column section" style="height: 50vh;">
+              <div class="mb-4">
+                <h6>У вас еще нет активных диалогов</h6>
+              </div>
+              <div class="btn btn-success" @click="showTechnologies">
+                + Новое собеседование
+              </div>
             </div>
           </div>
         </div>

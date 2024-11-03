@@ -33,6 +33,10 @@ body {
   /* цвет фона скролла */
 }
 
+input{
+  background-color: #1a1a1a !important;
+}
+
 .avatar img {
   width: 30px;
   height: 30px;
@@ -59,6 +63,18 @@ body {
   background: #008074;
   border: 1px #008074 solid;
   box-shadow: 0 0px 20px #0080744a;
+}
+
+.btn-primary {
+  background: #8320f5;
+  border: 1px #8320f5 solid;
+  box-shadow: 0 0px 20px #4200804a;
+}
+
+.btn-primary:hover {
+  background: #6e1dcc;
+  border: 1px #6e1dcc solid;
+  box-shadow: 0 0px 20px #8320f54a;
 }
 
 .btn-success:hover {
