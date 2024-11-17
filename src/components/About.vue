@@ -9,14 +9,16 @@ export default {
   },
   methods: {
     async getUser() {
-      const response = await meRequest()
-      if (
-        response.status === 200
-      ) {
-        this.user = response.data
-        this.$store.state.user = this.user
-      } else {
-        this.error = response.data.message;
+      const response = await meRequest(false)
+      if (response) {
+        if (
+          response.status === 200
+        ) {
+          this.user = response.data
+          this.$store.state.user = this.user
+        } else {
+          this.error = response.data.message;
+        }
       }
     },
   },

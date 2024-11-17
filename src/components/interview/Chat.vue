@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     async getUser() {
-      const response = await meRequest()
+      const response = await meRequest(true)
       if (
         response.status === 200
       ) {
@@ -46,9 +46,11 @@ export default {
         response.status === 200
       ) {
         this.isForbiddenEmail = false
-        this.$store.state.currentChat = response.data.items[0]
-        this.selectedChat = response.data.items[0].id
-        this.userChats = response.data.items
+        if (response.data.items.length > 0) {
+          this.$store.state.currentChat = response.data.items[0]
+          this.selectedChat = response.data.items[0].id
+          this.userChats = response.data.items
+        }
       } else {
         this.error = response.data.message;
       }
@@ -95,29 +97,32 @@ export default {
       <ForbiddenEmail />
     </div>
     <div v-else>
-      <div class="row">
-        <div class="col-xl-3 mt-4 chats-wrapper">
-          <div class="chats-header">
-            <h6>Ваши собеседования [{{ userChats.length }}/10]</h6>
+      <div v-if="userChats.length == 0">
+        <div class="d-flex align-items-center flex-column mt-5" style="height: 92vh;">
+          <div v-if="$store.state.showTechnologies">
+            <SelectTechnology />
           </div>
-          <div class="my-chats p-4 section my-4">
-            <div v-if="userChats.length < 10 || user.is_admin == true" class="btn btn-success mt-2" style="width: 100%;"
-              @click="showTechnologies">
+          <div v-else-if="$store.state.currentChat">
+            <ChatWindow />
+          </div>
+          <div v-else>
+            <div class="mb-4">
+              <h6>У вас еще нет активных диалогов</h6>
+            </div>
+            <div class="btn btn-success" @click="showTechnologies">
               + Новое собеседование
             </div>
-            <div class="user-chats mt-4">
-              <div class="user-chat mb-3" v-for="chat in userChats" :key="chat.id" @click="selectChat(chat.id)"
-                :class="{ selected: isSelectedChat(chat.id) }">
-                {{ truncateTitle(chat.title) }}
-              </div>
-            </div>
           </div>
-          <div class="my-chats-mob p-4 section my-4">
-            <details>
-              <summary>
-                {{ $store.state.currentChat.title }}
-              </summary>
-              <div v-if="userChats.length < 10 || user.is_admin == true" class="btn btn-success mt-4 p-2"
+        </div>
+      </div>
+      <div v-else>
+        <div class="row">
+          <div class="col-xl-3 chats-wrapper">
+            <div class="chats-header mb-3">
+              <h6>Ваши собеседования [{{ userChats.length }}/10]</h6>
+            </div>
+            <div class="my-chats p-4 section mb-4">
+              <div v-if="userChats.length < 10 || user.is_admin == true" class="btn btn-success mt-2"
                 style="width: 100%;" @click="showTechnologies">
                 + Новое собеседование
               </div>
@@ -127,18 +132,34 @@ export default {
                   {{ truncateTitle(chat.title) }}
                 </div>
               </div>
-            </details>
+            </div>
+            <div class="my-chats-mob p-4 section my-4">
+              <details>
+                <summary>
+                  {{ $store.state.currentChat.title }}
+                </summary>
+                <div v-if="userChats.length < 10 || user.is_admin == true" class="btn btn-success mt-4 p-2"
+                  style="width: 100%;" @click="showTechnologies">
+                  + Новое собеседование
+                </div>
+                <div class="user-chats mt-4">
+                  <div class="user-chat mb-3" v-for="chat in userChats" :key="chat.id" @click="selectChat(chat.id)"
+                    :class="{ selected: isSelectedChat(chat.id) }">
+                    {{ truncateTitle(chat.title) }}
+                  </div>
+                </div>
+              </details>
 
+            </div>
           </div>
-        </div>
-        <div class="col-xl-9 px-4" id="message-container-wrapper">
-          <div v-if="$store.state.showTechnologies">
-            <SelectTechnology />
-          </div>
-          <div v-else-if="$store.state.currentChat">
-            <ChatWindow />
-          </div>
-          <div v-else>
+          <div class="col-xl-9 px-4" id="message-container-wrapper" style="min-height: 92vh;">
+            <div v-if="$store.state.showTechnologies">
+              <SelectTechnology />
+            </div>
+            <div v-else-if="$store.state.currentChat">
+              <ChatWindow />
+            </div>
+            <!-- <div v-else>
             <div class="d-flex justify-content-center align-items-center flex-column section" style="height: 50vh;">
               <div class="mb-4">
                 <h6>У вас еще нет активных диалогов</h6>
@@ -147,9 +168,11 @@ export default {
                 + Новое собеседование
               </div>
             </div>
+          </div> -->
           </div>
         </div>
       </div>
+
     </div>
   </div>
   <div v-else>

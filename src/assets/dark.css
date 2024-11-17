@@ -172,15 +172,6 @@ nav .nav-links text:hover {
   text-align: end;
 }
 
-.close .buttn {
-  cursor: pointer;
-}
-
-.close .buttn:hover {
-  cursor: pointer;
-  color: #03c9b5;
-}
-
 .form-control::placeholder {
   color: #666;
 }

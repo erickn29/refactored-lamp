@@ -1,6 +1,7 @@
 <script>
 import SelectTechnology from './AddChat.vue';
 import request from "@/requests";
+import Popup from '@/components/Popup.vue';
 
 export default {
   data() {
@@ -13,10 +14,14 @@ export default {
       messages: [],
       questionId: null,
       disableControls: false,
+      showPopupWindow: false,
+      popupMessage: "",
+      deleteChatRequestObject: {}
     }
   },
   components: {
     SelectTechnology,
+    Popup,
   },
   methods: {
     resizeTextarea() {
@@ -68,7 +73,7 @@ export default {
         // behavior: "smooth",
       });
     },
-    isDisabledControls () {
+    isDisabledControls() {
       return this.disableControls
     },
     async getChat() {
@@ -99,12 +104,32 @@ export default {
         setTimeout(() => {
           this.scrollToBottom();
         }, "1 second");
-        
+
         this.showLoader = false
       } else {
         this.error = response.data.message;
       }
     },
+    showPopup(action) {
+      // if (action === "edit") {
+      //   this.popupMessage = "Edit"
+      //   this.showPopupWindow = true
+      // }
+      if (action === "delete") {
+        this.popupMessage = `Удалить 
+        чат "${this.$store.state.currentChat.title}"?<br><br>
+        Данные удалятся безвозвратно.
+        `
+        this.deleteChatRequestObject = {
+          method: "delete",
+          url: `/interview/chat/${this.$store.state.currentChat.id}/`,
+          data: {},
+          headers: { "Authorization": `Bearer ${localStorage.getItem("access_token")}` },
+          params: {},
+        }
+        this.showPopupWindow = true
+      }
+    }
   },
   watch: {
     '$store.state.currentChat': async function () {
@@ -123,7 +148,34 @@ export default {
 </script>
 
 <template>
+  <div v-if="showPopupWindow">
+    <Popup 
+      @close-popup="showPopupWindow = false" 
+      :text=popupMessage 
+      :requestData=deleteChatRequestObject
+    />
+  </div>
   <div class="container" id="message-container">
+    <div class="chat-control">
+      <h6 class="mb-3">
+        <span class="p-1" style="cursor: default;">
+          <strong>
+            {{ $store.state.currentChat.title }}
+          </strong>
+        </span>
+        <span style="cursor: default;">
+          [{{ $store.state.currentChat.config.technologies.map(tech =>
+            tech.technology).join(', ') }}]
+        </span>
+        <span class="mx-2 trash" @click="showPopup('delete')">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill"
+            viewBox="0 0 16 16">
+            <path
+              d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5m-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5M4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06m6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528M8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5" />
+          </svg>
+        </span>
+      </h6>
+    </div>
     <div class="chat d-flex mb-4">
       <div v-if="showLoader" style="position: relative; width: 100%; height: 100%;">
         <div class="spinner-container">
@@ -139,17 +191,14 @@ export default {
       <div class="controls">
         <div v-if="showTextArea" class="user-message-area row">
           <div class="col-xl-11 col-10" style="padding-right: 0;">
-            <textarea
-              style="min-height: 55px; overflow: hidden; resize: none; border-radius: 5px 0px 0px 5px;" ref="textarea"
-              class="form-control" v-model="text" placeholder="Введите свой ответ..."
-              @input="resizeTextarea"
-            >
+            <textarea style="min-height: 55px; overflow: hidden; resize: none; border-radius: 5px 0px 0px 5px;"
+              ref="textarea" class="form-control" v-model="text" placeholder="Введите свой ответ..."
+              @input="resizeTextarea">
             </textarea>
           </div>
           <div class="col-xl-1 col-2 d-flex justify-content-center align-items-center" style="padding-left: 0;">
-            <div v-if="!disableControls"
-              class="d-flex justify-content-center align-items-center send-btn" style="" @click="sendAnswer"
-            >
+            <div v-if="!disableControls" class="d-flex justify-content-center align-items-center send-btn" style=""
+              @click="sendAnswer">
               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#fff" class="bi bi-send-fill"
                 viewBox="0 0 16 16">
                 <path
@@ -165,3 +214,24 @@ export default {
     </div>
   </div>
 </template>
+
+<style>
+.chat-control span svg {
+  cursor: pointer;
+  transition: .2s;
+  margin-bottom: 3px;
+}
+
+.chat-control span svg:hover {
+  fill: #008074;
+  transition: .2s;
+}
+
+.trash svg {
+  fill: #f52067;
+}
+
+.trash svg:hover {
+  fill: #d31b58 !important;
+}
+</style>

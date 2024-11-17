@@ -56,7 +56,9 @@ export default {
               </svg>
             </div>
             <div class="avatar">
-              <img src="https://avatar.iran.liara.run/public/boy" />
+              <router-link to="/me">
+                <img src="https://avatar.iran.liara.run/public/boy" />
+              </router-link>
             </div>
           </div>
           <div v-else class="d-flex gap-3">

@@ -10,12 +10,35 @@ import Registration from './components/Registration.vue'
 import Login from './components/Login.vue'
 import ChatWindow from './components/interview/ChatWindow.vue'
 import About from './components/About.vue';
+import VerifyEmail from './components/VerifyEmail.vue';
+import Placeholder from './components/Placeholder.vue';
+import UserRetrive from './components/UserRetrive.vue';
 
 const router = createRouter({
   routes: [
     {
       path: '/',
       component: About,
+      meta: { transition: 'fade' },
+    },
+    {
+      path: '/progress',
+      component: Placeholder,
+      meta: { transition: 'fade' },
+    },
+    {
+      path: '/questions',
+      component: Placeholder,
+      meta: { transition: 'fade' },
+    },
+    {
+      path: '/verify-email/:token',
+      component: VerifyEmail,
+      meta: { transition: 'fade' },
+    },
+    {
+      path: '/me',
+      component: UserRetrive,
       meta: { transition: 'fade' },
     },
     {

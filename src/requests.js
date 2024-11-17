@@ -25,23 +25,27 @@ export default async function request(
   } catch (error) {
     if (error.response.status == 401) {
       if (localStorage.getItem("refresh_token")) {
-        const refreshResponse = await axios({
-          method: 'POST',
-          url: `${baseUrl}${apiVersion}/auth/token/refresh/`,
-          data: { token: localStorage.getItem("refresh_token") },
-          headers: {},
-          params: {},
-        })
-        const access_token = refreshResponse.data.access_token;
-        const refresh_token = refreshResponse.data.refresh_token;
-        localStorage.setItem('access_token', access_token);
-        localStorage.setItem('refresh_token', refresh_token);
-        location.reload();
+        try {
+          const refreshResponse = await axios({
+            method: 'POST',
+            url: `${baseUrl}${apiVersion}/auth/token/refresh/`,
+            data: { token: localStorage.getItem("refresh_token") },
+            headers: {},
+            params: {},
+          })
+          const access_token = refreshResponse.data.access_token;
+          const refresh_token = refreshResponse.data.refresh_token;
+          localStorage.setItem('access_token', access_token);
+          localStorage.setItem('refresh_token', refresh_token);
+          location.reload();
+        } catch (error) {
+          main.$router.push('/login');
+        }
       } else {
         main.$router.push('/login');
       }
     }
-    console.log(error)
+    // console.log(error)
     return error.response
   }
 }

@@ -1,7 +1,8 @@
 import request from "@/requests";
+import main from "@/main";
 
-export default async function meRequest() {
-  if (localStorage.getItem("access_token")) {
+export default async function meRequest(login_redirect) {
+  if (localStorage.getItem("access_token") && login_redirect === true) {
     const response = await request(
       "get",
       "/user/me/",
@@ -10,5 +11,7 @@ export default async function meRequest() {
       {},
     )
     return response
+  } else {
+    return true
   }
 }
