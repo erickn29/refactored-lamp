@@ -4,7 +4,7 @@ import request from "@/requests";
 export default {
   data() {
     return {
-      technologies: ["Python", "SQL", "Linux"],
+      technologies: ["python", "sql", "linux"],
       // grades: ['trainee', 'junior', 'middle', 'senior',],
       selectedTechnologies: [],
       // selectedGrades: [],
@@ -138,7 +138,7 @@ export default {
           @click="createChat">
           создать чат
         </button>
-        <button class="btn btn-warning p-2 mx-auto" @click="closeSelectTechnologies">
+        <button class="btn btn-danger p-2 mx-auto" @click="closeSelectTechnologies">
           отмена
         </button>
       </div>

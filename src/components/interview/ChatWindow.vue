@@ -1,7 +1,9 @@
 <script>
 import SelectTechnology from './AddChat.vue';
 import request from "@/requests";
-import Popup from '@/components/Popup.vue';
+import Popup from '@/components/interface/Popup.vue';
+import LoaderSmall from '../interface/LoaderSmall.vue';
+import meRequest from '@/endpoints/user/me';
 
 export default {
   data() {
@@ -22,11 +24,24 @@ export default {
   components: {
     SelectTechnology,
     Popup,
+    LoaderSmall,
   },
   methods: {
     resizeTextarea() {
       const height = this.$refs.textarea.scrollHeight;
       this.$refs.textarea.style.height = `${height}px`;
+    },
+    async getUser() {
+      const response = await meRequest(true)
+      if (
+        response.status === 200
+      ) {
+        console.log(response.data)
+        this.user = response.data
+        this.$store.state.user = this.user
+      } else {
+        this.error = response.data.message;
+      }
     },
     async getQuestion() {
       this.showLoader = true
@@ -59,6 +74,7 @@ export default {
       if (response.status == 201) {
         this.text = ""
         await this.getChat()
+        await this.getUser()
         // this.messages = response.data.messages
         this.disableControls = false
         this.showLoader = false
@@ -111,10 +127,6 @@ export default {
       }
     },
     showPopup(action) {
-      // if (action === "edit") {
-      //   this.popupMessage = "Edit"
-      //   this.showPopupWindow = true
-      // }
       if (action === "delete") {
         this.popupMessage = `Удалить 
         чат "${this.$store.state.currentChat.title}"?<br><br>
@@ -149,11 +161,7 @@ export default {
 
 <template>
   <div v-if="showPopupWindow">
-    <Popup 
-      @close-popup="showPopupWindow = false" 
-      :text=popupMessage 
-      :requestData=deleteChatRequestObject
-    />
+    <Popup @close-popup="showPopupWindow = false" :text=popupMessage :requestData=deleteChatRequestObject />
   </div>
   <div class="container" id="message-container">
     <div class="chat-control">
@@ -177,10 +185,8 @@ export default {
       </h6>
     </div>
     <div class="chat d-flex mb-4">
-      <div v-if="showLoader" style="position: relative; width: 100%; height: 100%;">
-        <div class="spinner-container">
-          <span class="spinner"></span>
-        </div>
+      <div v-if="showLoader" style="">
+        <LoaderSmall />
       </div>
       <div class="messages p-4" :id="$store.state.currentChat.id" @change="scrollToBottom">
         <div v-for="msg in messages" :key="msg.id"
@@ -205,7 +211,16 @@ export default {
                   d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471z" />
               </svg>
             </div>
+            <div v-else>
+              <LoaderSmall />
+            </div>
           </div>
+        </div>
+        <div v-else-if="$store.state.user.coin < 1" 
+          class="d-flex justify-content-center"
+          style="width: 100%; padding: 15px; cursor: default;"
+        >
+          Недостаточно токенов =(
         </div>
         <div v-else style="width: 100%; padding: 15px;" class="btn btn-success" @click="getQuestion">
           следующий вопрос

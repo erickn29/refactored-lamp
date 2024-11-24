@@ -10,6 +10,7 @@ export default async function loginRequest(email, password) {
       {},
       {},
     )
+    console.log(response)
     if (
       response.status === 200 &&
       response.data.access_token !== null &&
@@ -21,10 +22,12 @@ export default async function loginRequest(email, password) {
       localStorage.setItem('refresh_token', refresh_token);
       return response
     } else {
-      this.error = response.data.message;
+      // this.error = response.data.message;
+      return response
     }
   }
   catch (error) {
-    console.log(error)
+    console.log(error.data);
+    return response
   }
 }

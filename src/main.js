@@ -5,14 +5,14 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import store from "@/store";
 import VacancyList from './components/vacancy/VacancyList.vue'
-import Chat from "./components/interview/Chat.vue"
-import Registration from './components/Registration.vue'
-import Login from './components/Login.vue'
+import Chat from "./components/page/Chat.vue"
+import Registration from './components/auth/Registration.vue'
+import Login from './components/auth/Login.vue'
 import ChatWindow from './components/interview/ChatWindow.vue'
-import About from './components/About.vue';
-import VerifyEmail from './components/VerifyEmail.vue';
-import Placeholder from './components/Placeholder.vue';
-import UserRetrive from './components/UserRetrive.vue';
+import About from './components/page/About.vue';
+import VerifyEmail from './components/auth/VerifyEmail.vue';
+import Placeholder from './components/page/Placeholder.vue';
+import User from './components/page/User.vue';
 
 const router = createRouter({
   routes: [
@@ -38,7 +38,7 @@ const router = createRouter({
     },
     {
       path: '/me',
-      component: UserRetrive,
+      component: User,
       meta: { transition: 'fade' },
     },
     {

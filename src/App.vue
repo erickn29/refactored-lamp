@@ -1,9 +1,9 @@
 <script>
 import VacancyList from "./components/vacancy/VacancyList.vue"
 import Filter from "./components/vacancy/Filter.vue"
-import Navbar from "./components/Navbar.vue"
-import Footer from "./components/Footer.vue";
-import LeftSlider from "./components/LeftSlider.vue";
+import Navbar from "./components/main/Navbar.vue"
+import Footer from "./components/main/Footer.vue";
+import LeftSlider from "./components/interview/LeftSlider.vue";
 
 import request from "@/requests";
 

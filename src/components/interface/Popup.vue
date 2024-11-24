@@ -22,7 +22,14 @@ export default {
         this.requestData.headers,
         this.requestData.params,
       )
+      console.log(response)
+      console.log(this.type)
       if (response.status >= 200 && response.status < 300) {
+        if (this.type === "deleteUser") {
+          localStorage.removeItem('access_token')
+          localStorage.removeItem('refresh_token')
+          this.$store.state.user = {}
+        }
         location.reload();
       }
     }

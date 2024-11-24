@@ -1,0 +1,5 @@
+<template>
+    <div class="spinner-container">
+        <span class="spinner"></span>
+    </div>
+</template>

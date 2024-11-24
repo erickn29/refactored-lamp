@@ -17,7 +17,7 @@ export default {
           this.user = response.data
           this.$store.state.user = this.user
         } else {
-          this.error = response.data.message;
+          // this.error = response.data.msg;
         }
       }
     },

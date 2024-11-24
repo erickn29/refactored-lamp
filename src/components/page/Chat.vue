@@ -1,8 +1,8 @@
 <script>
 import request from "@/requests";
-import SelectTechnology from "./AddChat.vue";
-import ChatWindow from "./ChatWindow.vue";
-import ForbiddenEmail from "../ForbiddenEmail.vue";
+import SelectTechnology from "../interview/AddChat.vue";
+import ChatWindow from "../interview/ChatWindow.vue";
+import ForbiddenEmail from "../auth/ForbiddenEmail.vue";
 import meRequest from '@/endpoints/user/me';
 
 export default {
@@ -27,6 +27,7 @@ export default {
       if (
         response.status === 200
       ) {
+        console.log(response.data)
         this.user = response.data
         this.$store.state.user = this.user
       } else {

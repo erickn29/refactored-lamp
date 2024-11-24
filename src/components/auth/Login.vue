@@ -16,7 +16,7 @@ export default {
       if (response.status === 200) {
         this.$router.push('/interview')
       } else {
-        this.error = response.data.message
+        console.log(response.data.extra.detail)
       }
     }
   }
